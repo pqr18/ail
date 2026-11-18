@@ -1,0 +1,148 @@
+# Data Preprocessing and Exploratory Data Analysis
+
+# Step 1: Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# Step 2: Load dataset
+df = pd.read_csv("heart (1).csv")
+
+print("\nFirst Five Rows:")
+print(df.head())
+
+# Step 3: Information of dataset
+print("\nDataset Information:")
+df.info()
+
+print("\nColumn Names:")
+print(df.columns)
+
+print("\nData Types:")
+print(df.dtypes)
+
+print("\nDataset Size:", df.size)
+print("Dataset Shape:", df.shape)
+
+# Step 4: Data Cleaning
+df.replace("?", np.nan, inplace=True)
+df.drop_duplicates(inplace=True)
+
+print("\nShape After Removing Duplicates:")
+print(df.shape)
+
+# Step 5: Missing Value Handling
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# Fill numerical missing values with median
+for col in df.select_dtypes(include=np.number).columns:
+    df[col] = df[col].fillna(df[col].median())
+
+# Fill categorical missing values with mode
+for col in df.select_dtypes(include='object').columns:
+    if df[col].notna().any():
+        df[col] = df[col].fillna(df[col].mode()[0])
+
+print("\nMissing Values After Handling:")
+print(df.isnull().sum())
+
+# Step 6: Encoding Categorical Data
+# Detect target column
+target_col = 'target' if 'target' in df.columns else 'output'
+
+cat_cols = df.select_dtypes(include='object').columns.drop(
+    target_col, errors='ignore'
+)
+
+df = pd.get_dummies(df, columns=cat_cols,
+                    drop_first=True, dtype=int)
+
+print("\nDataset After Encoding:")
+print(df.head())
+
+# Step 7: Statistical Analysis
+print("\nStatistical Summary:")
+print(df.describe())
+
+print("\nMean:")
+print(df.mean(numeric_only=True))
+
+print("\nMedian:")
+print(df.median(numeric_only=True))
+
+print("\nStandard Deviation:")
+print(df.std(numeric_only=True))
+
+print("\nCorrelation Matrix:")
+print(df.corr(numeric_only=True))
+
+# Step 8: Data Visualization
+
+# Histogram of Age
+plt.figure(figsize=(8, 5))
+plt.hist(df['age'], bins=20, edgecolor='black')
+plt.title("Histogram of Age")
+plt.xlabel("Age")
+plt.ylabel("Frequency")
+plt.show()
+
+# Histogram of Cholesterol
+plt.figure(figsize=(8, 5))
+plt.hist(df['chol'], bins=15, edgecolor='black')
+plt.title("Histogram of Cholesterol")
+plt.xlabel("Cholesterol")
+plt.ylabel("Frequency")
+plt.show()
+
+# Boxplot of Age
+plt.figure(figsize=(8, 5))
+plt.boxplot(df['age'])
+plt.title("Boxplot of Age")
+plt.ylabel("Age")
+plt.show()
+
+# Boxplot of Cholesterol
+plt.figure(figsize=(8, 5))
+plt.boxplot(df['chol'])
+plt.title("Boxplot of Cholesterol")
+plt.ylabel("Cholesterol")
+plt.show()
+
+# Step 9: Splitting into Training and Testing Data
+
+X = df.drop(target_col, axis=1)
+y = df[target_col]
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=56
+)
+
+print("\n========== DATA SPLITTING ==========")
+
+print("\nTotal Dataset:", df.shape)
+print("Training Data Shape:", X_train.shape)
+print("Testing Data Shape:", X_test.shape)
+
+print("Training Target Shape:", y_train.shape)
+print("Testing Target Shape:", y_test.shape)
+
+# Step 10: Feature Scaling
+
+scaler = StandardScaler()
+
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+print("\n========== FEATURE SCALING ==========")
+
+print("Training Data After Scaling:")
+print(X_train[:5])
+
+print("\nTesting Data After Scaling:")
+print(X_test[:5])
+
+print("\nData Preprocessing and EDA Completed Successfully!")
