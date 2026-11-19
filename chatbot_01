@@ -1,0 +1,31 @@
+# Intelligent Agent - Simple Chatbot
+
+def chatbot():
+    print("=====================================")
+    print("      Simple Intelligent Chatbot")
+    print("Type 'exit' to end the conversation.")
+    print("=====================================")
+
+    while True:
+        user = input("You: ").lower()
+
+        if user == "hello":
+            print("Bot: Hello! How can I help you?")
+        elif user == "hi":
+            print("Bot: Hi! Nice to meet you.")
+        elif user == "how are you":
+            print("Bot: I am fine. Thank you!")
+        elif user == "your name":
+            print("Bot: I am an AI Chatbot.")
+        elif user == "course":
+            print("Bot: Artificial Intelligence and Machine Learning.")
+        elif user == "bye":
+            print("Bot: Goodbye! Have a nice day.")
+            break
+        elif user == "exit":
+            print("Bot: Session Ended.")
+            break
+        else:
+            print("Bot: Sorry, I don't understand.")
+
+chatbot()
