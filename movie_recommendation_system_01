@@ -1,0 +1,31 @@
+print("===== Movie Recommendation Assistant =====")
+
+genre = input("Enter your favorite genre (action/comedy/horror/romance): ").lower()
+
+if genre == "action":
+    print("Recommended Movies:")
+    print("1. Avengers: Endgame")
+    print("2. John Wick")
+    print("3. Mad Max: Fury Road")
+
+elif genre == "comedy":
+    print("Recommended Movies:")
+    print("1. 3 Idiots")
+    print("2. The Mask")
+    print("3. Jumanji")
+
+elif genre == "horror":
+    print("Recommended Movies:")
+    print("1. The Conjuring")
+    print("2. Insidious")
+    print("3. IT")
+
+elif genre == "romance":
+    print("Recommended Movies:")
+    print("1. Titanic")
+    print("2. The Notebook")
+    print("3. La La Land")
+
+else:
+    print("Sorry! Genre not found.")
+    print("Try: action, comedy, horror, or romance.")
